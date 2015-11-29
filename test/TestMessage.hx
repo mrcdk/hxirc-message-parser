@@ -14,9 +14,8 @@ class TestMessage {
 
   var messages:Array<MessageTest>;
 
-  public function new() {}
+  public function new() {
 
-  public function setup() {
     messages = [
       {
         rawMessage: ":a!b@c QUIT",
@@ -156,45 +155,55 @@ class TestMessage {
         rawPrefix: "seme_ukulele!seme_ukulele@seme_ukulele.tmi.twitch.tv",
         rawTags: "color=#FF69B4;display-name=seme_ukulele;emotes=;subscriber=1;turbo=0;user-id=104949876;user-type=",
         expected: {
+          var tags = [
+            new Tag("color", "#FF69B4"),
+            new Tag("display-name", "seme_ukulele"),
+            new Tag("emotes", ""),
+            new Tag("subscriber", "1"),
+            new Tag("turbo", "0"),
+            new Tag("user-id", "104949876"),
+            new Tag("user-type", ""),
+          ];
+
           var prefix = new Prefix("seme_ukulele","seme_ukulele","seme_ukulele.tmi.twitch.tv");
           var command = Command.PRIVMSG;
           var params = ["#monotonetim"];
           var trailing = "ebe";
-          new Message(prefix, command, params, trailing);
+          new Message(tags, prefix, command, params, trailing);
         },
         hostmask: true
       },
 
     ];
+
+  }
+
+  public function testPrefixes() {
+    for(test in messages) {
+      if(test.rawPrefix == null) continue;
+      prefixTest(Prefix.parse(test.rawPrefix), test);
+    }
+  }
+
+  public function testTags() {
+    for(test in messages) {
+      if(test.rawTags == null) continue;
+      tagsTest(irc.Tag.Tags.parse(test.rawTags), test);
+    }
   }
 
   public function testMessages() {
     for(test in messages) {
 
+      if(test.rawMessage == null) continue;
+
       var expected = test.expected;
       var message = Message.parse(test.rawMessage);
 
-      function testPrefix(prefix:Prefix) {
-        Assert.notNull(prefix);
-        Assert.same(expected.prefix, prefix);
-        Assert.equals(test.rawPrefix, (prefix:String));
-
-        if(test.hostmask) {
-          Assert.isTrue(prefix.isHostmask, 'Prefix "${test.rawPrefix}" should be a hostmask.');
-        }
-
-        if(test.server) {
-          Assert.isTrue(prefix.isServer, 'Prefix "${test.rawPrefix}" should be a server.');
-        }
-      }
-
-      if(test.rawPrefix != null) {
-        var prefix = Prefix.parse(test.rawPrefix);
-        testPrefix(prefix);
-      }
+      Assert.notNull(message);
 
       if(message != null) {
-        testPrefix(message.prefix);
+        prefixTest(message.prefix, test);
         Assert.equals(expected.command, message.command);
         if(expected.params == null) {
           Assert.isNull(message.params);
@@ -208,19 +217,34 @@ class TestMessage {
         }
 
 
-        if(test.rawTags != null) {
+        if(false && test.rawTags != null) {
           Assert.warn("Skipping Message.toString() because tags aren't implemented.");
           continue;
         }
 
         Assert.equals(test.rawMessage, (message:String));
-
       }
     }
   }
 
-  public function teardown() {
-    messages = null;
+  function tagsTest(tags:Array<Tag>, test:MessageTest) {
+    Assert.notNull(tags);
+    Assert.same(test.expected.tags, tags);
+    //Assert.equals(test.rawTags, (tags:String));
+  }
+
+  function prefixTest(prefix:Prefix, test:MessageTest) {
+    Assert.notNull(prefix);
+    Assert.same(test.expected.prefix, prefix);
+    Assert.equals(test.rawPrefix, (prefix:String));
+
+    if(test.hostmask) {
+      Assert.isTrue(prefix.isHostmask, 'Prefix "${test.rawPrefix}" should be a hostmask.');
+    }
+
+    if(test.server) {
+      Assert.isTrue(prefix.isServer, 'Prefix "${test.rawPrefix}" should be a server.');
+    }
   }
 
 }

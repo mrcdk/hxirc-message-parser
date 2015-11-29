@@ -2,7 +2,8 @@ package irc;
 
 using StringTools;
 
-@:enum abstract Command(String) {
+@:keep
+@:enum abstract Command(String) to String {
   // IRC commands extracted from RFC2812 section 3 and RFC2813 section 4.
 
   var PASS     = "PASS";

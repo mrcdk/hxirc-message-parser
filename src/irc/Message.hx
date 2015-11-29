@@ -1,10 +1,12 @@
 package irc;
 
+import irc.Tag.Tags;
+
 using StringTools;
 using utils.Utils;
 
 typedef MessageDef = {
-  @:optional var tags:Array<Tag>;
+  @:optional var tags:Tags;
   @:optional var prefix:Prefix;
   var command:Command;
   @:optional var params:Array<String>;
@@ -14,7 +16,7 @@ typedef MessageDef = {
 @:forward()
 abstract Message(MessageDef) {
 
-  public inline function new(?tags:Array<Tag>, ?prefix:Prefix, command:Command,
+  public inline function new(?tags:Tags, ?prefix:Prefix, command:Command,
     ?params:Array<String>, ?trailing:String) {
       this = {tags:tags, prefix:prefix, command:command,
          params:params, trailing:trailing};
@@ -64,15 +66,17 @@ abstract Message(MessageDef) {
       trailing = raw.substring(cursor);
     }
 
+    /*
     trace("\n" + raw +
-          "\n\ttags: " + tags +
+          "\n\ttags: " + Tag.parseTags(tags) +
           "\n\tprefix: " + prefix +
           "\n\tcommand: " +  command +
           "\n\tparamsStr: " + paramsStr +
           "\n\tparams: " +  params +
           "\n\ttrailing: " +  trailing);
+    */
 
-    return new Message(Prefix.parse(prefix), command, params, trailing);
+    return new Message(Tag.Tags.parse(tags), Prefix.parse(prefix), command, params, trailing);
   }
 
   @:to
@@ -80,11 +84,13 @@ abstract Message(MessageDef) {
     var s = "";
     var tags      = this.tags.len() > 0;
     var prefix    = this.prefix != null && !this.prefix.isEmpty();
-    var command   = this.command != null;
+    var command   = this.command.len() > 0;
     var params    = this.params.len() > 0;
     var trailing  = this.trailing != null;
+
     inline function spc(b) return b ? ' ' : '';
-    if(tags)     s += '@${this.tags.join(";")}';
+
+    if(tags)     s += '@${(this.tags:String)}';
     if(prefix)   s += '${spc(tags)}:${this.prefix}';
     if(command)  s += '${spc(prefix)}${this.command}';
     if(params)   s += '${spc(command)}${this.params.join(" ")}';
