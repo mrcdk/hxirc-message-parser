@@ -1,0 +1,17 @@
+-debug
+
+common.hxml
+--each
+
+--next
+-main Main
+-neko bin/irc.n
+
+--next
+-dce full
+-D analyzer
+-main Main
+-js bin/irc.js
+
+--next
+test.hxml
