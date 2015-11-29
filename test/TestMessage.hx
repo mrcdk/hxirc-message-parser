@@ -102,6 +102,54 @@ class TestMessage {
         server: true
       },
 
+      {
+        rawMessage: ":irc.vives.lan 250 test :Highest connection count: 1 (1 connections received)",
+        rawPrefix: "irc.vives.lan",
+        expected: {
+          var prefix = new Prefix("irc.vives.lan");
+          var command = "250";
+          var params = ["test"];
+          var trailing = "Highest connection count: 1 (1 connections received)";
+          new Message(prefix, command, params, trailing);
+        },
+        server: true
+      },
+
+      {
+        rawMessage: "MODE &oulu +b *!*@*.edu +e *!*@*.bu.edu",
+        rawPrefix: "",
+        expected: {
+          var prefix = new Prefix();
+          var command = Command.MODE;
+          var params = ["&oulu", "+b", "*!*@*.edu", "+e", "*!*@*.bu.edu"];
+          var trailing = null;
+          new Message(prefix, command, params, trailing);
+        },
+      },
+
+      {
+        rawMessage: "PRIVMSG #channel :Message with :colons!",
+        rawPrefix: "",
+        expected: {
+          var prefix = new Prefix();
+          var command = Command.PRIVMSG;
+          var params = ["#channel"];
+          var trailing = "Message with :colons!";
+          new Message(prefix, command, params, trailing);
+        },
+      },
+
+      {
+        rawMessage: "PASS oauth:token_goes_here",
+        rawPrefix: "",
+        expected: {
+          var prefix = new Prefix();
+          var command = Command.PASS;
+          var params = ["oauth:token_goes_here"];
+          var trailing = null;
+          new Message(prefix, command, params, trailing);
+        },
+      },
 
       {
         rawMessage: "@color=#FF69B4;display-name=seme_ukulele;emotes=;subscriber=1;turbo=0;user-id=104949876;user-type= :seme_ukulele!seme_ukulele@seme_ukulele.tmi.twitch.tv PRIVMSG #monotonetim :ebe",

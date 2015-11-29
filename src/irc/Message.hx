@@ -35,7 +35,7 @@ abstract Message(MessageDef) {
     var cursor:Int = 0;
     inline function adv(char:String = " ", ?start:Int) {
       cursor = raw.indexOf(char, start);
-      return cursor = (cursor > -1 ? cursor : raw.length) + 1;
+      return cursor = (cursor > -1 ? cursor : raw.length) + char.length;
     }
 
     var tagsIdx = raw.indexOf("@");
@@ -54,8 +54,9 @@ abstract Message(MessageDef) {
     command = raw.substring(cursor, adv(cursor));
 
     if(cursor < raw.length) {
-      // ad() - 1 to remove the :
-      paramsStr = raw.substring(cursor, adv(":", cursor) - 1).trim();
+      // We need to find the first <space>: that marks the end of the params
+      // so we have to start from one character before and remove the <space>:
+      paramsStr = raw.substring(cursor, adv(" :", cursor - 1) - 1).trim();
       params = paramsStr.len() > 0 ? paramsStr.split(" ") : null;
     }
 
@@ -63,7 +64,13 @@ abstract Message(MessageDef) {
       trailing = raw.substring(cursor);
     }
 
-    trace(tags, prefix, command, paramsStr, params, trailing);
+    trace("\n" + raw +
+          "\n\ttags: " + tags +
+          "\n\tprefix: " + prefix +
+          "\n\tcommand: " +  command +
+          "\n\tparamsStr: " + paramsStr +
+          "\n\tparams: " +  params +
+          "\n\ttrailing: " +  trailing);
 
     return new Message(Prefix.parse(prefix), command, params, trailing);
   }
