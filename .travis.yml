@@ -50,11 +50,11 @@ install:
   - haxelib list
 
 script:
-  - haxe test/test-interp.hxml
-  - haxe test/test-neko.hxml         && neko bin/tests/irc.n
-  - haxe test/test-js.hxml           && node bin/tests/irc.js
-  - haxe test/test-java.hxml         && java -jar bin/tests/java/irc.jar
-  - haxe test/test-php.hxml          && php bin/tests/php/index.php
-  - haxe test/test-cs.hxml           && mono bin/tests/cs/irc.exe
-  - haxe test/test-cpp.hxml          && ./bin/tests/cpp/TestAll
-  - haxe test/test-python.hxml       && python3 bin/tests/irc.py
+  - haxe test-interp.hxml
+  - haxe test-neko.hxml         && neko bin/tests/irc.n
+  - haxe test-js.hxml           && node bin/tests/irc.js
+  - haxe test-java.hxml         && java -jar bin/tests/java/irc.jar
+  - haxe test-php.hxml          && php bin/tests/php/index.php
+  - haxe test-cs.hxml           && mono bin/tests/cs/irc.exe
+  - haxe test-cpp.hxml          && ./bin/tests/cpp/TestAll
+  - haxe test-python.hxml       && python3 bin/tests/irc.py

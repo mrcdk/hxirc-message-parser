@@ -1,0 +1,6 @@
+common.hxml
+
+-lib utest
+
+-cp test
+-main TestAll

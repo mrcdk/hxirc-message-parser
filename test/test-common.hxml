@@ -1,6 +1,0 @@
--lib thx.core
--lib utest
-
--cp ../src
--cp .
--main TestAll
