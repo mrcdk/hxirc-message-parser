@@ -1,2 +1,2 @@
 test-common.hxml
--php ../bin/tests/php
+-php bin/tests/php

@@ -1,2 +1,2 @@
 test-common.hxml
--js ../bin/tests/irc.js
+-js bin/tests/irc.js
