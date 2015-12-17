@@ -4,7 +4,7 @@
   "license": "MIT",
   "tags": ["cross", "irc"],
   "description": "An irc message parser.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "releasenote": "Initial release.",
   "contributors": ["mrcdk"],
   "dependencies": {
