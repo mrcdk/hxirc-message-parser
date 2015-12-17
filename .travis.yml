@@ -57,8 +57,8 @@ script:
   - haxe test-js.hxml           && node bin/tests/irc.js
   - haxe test-php.hxml          && php bin/tests/php/index.php
   - haxe test-cpp.hxml          && ./bin/tests/cpp/TestAll
-  
+  - haxe test-java.hxml         && java -jar bin/tests/java/TestAll.jar
+  - haxe test-cs.hxml           && mono bin/tests/cs/bin/TestAll.exe
+
   # these targets are failing so I'll disable them for now
-  #- haxe test-java.hxml         && java -jar bin/tests/java/TestAll.jar
-  #- haxe test-cs.hxml           && mono bin/tests/cs/bin/TestAll.exe
   #- haxe test-python.hxml       && python3 bin/tests/irc.py

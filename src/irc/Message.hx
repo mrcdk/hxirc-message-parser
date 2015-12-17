@@ -35,7 +35,9 @@ abstract Message(MessageDef) {
     raw = raw.trim();
 
     var cursor:Int = 0;
-    inline function adv(char:String = " ", ?start:Int) {
+    // Java and C# targets fail with inline
+    #if !(java || cs) inline #end
+    function adv(char:String = " ", ?start:Int) {
       cursor = raw.indexOf(char, start);
       return cursor = (cursor > -1 ? cursor : raw.length) + char.length;
     }
