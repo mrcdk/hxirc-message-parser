@@ -8,3 +8,7 @@ This is a weekend hack project I made to parse a few raw IRC messages. It hasn't
 
 #### Usage
 Check `src/Main.hx` and `test/TestMessage.hx` for examples.
+
+#### Known issues
+
+- Python target fails.
