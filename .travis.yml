@@ -47,6 +47,8 @@ install:
   - haxelib install hxcpp
   - haxelib install hxjava
   - haxelib install hxcs
+  - haxelib install thx.core
+  - haxelib install utest
   - haxelib list
 
 script:
