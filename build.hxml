@@ -5,6 +5,3 @@ common.hxml
 -main Main
 -neko bin/irc.n
 -cmd neko bin/irc.n
-
---next
-test.hxml

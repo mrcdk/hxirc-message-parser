@@ -1,0 +1,60 @@
+language: haxe
+
+# TravisCI by default run on linux.
+# Let's enable both linux and mac builds because why not?
+os:
+  - linux
+  - osx
+
+# Test with Haxe 3.2.1 and Haxe development.
+haxe:
+  - "3.2.0"
+  - "3.2.1"
+  - development
+
+matrix:
+  # Allow Haxe development to fail.
+  allow_failures:
+    - haxe: development
+
+addons:
+  # This is the preferred way to install apt packages.
+  # However, it only allow some but not all packages.
+  # Alternatively, we can use `sudo apt-get install ...` in the `install:` section.
+  # http://docs.travis-ci.com/user/apt/#Adding-APT-Packages
+  apt:
+    packages:
+      # Python
+      - python3
+      # PHP
+      - php5-cli
+      # C#
+      - mono-devel
+      - mono-mcs
+
+install:
+  # os-specific config
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+      export DISPLAY=:99.0;
+      export AUDIODEV=null;
+    elif [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+      brew update;
+      brew install mono;
+      brew install phantomjs;
+      brew install python3;
+    fi
+  # Install haxelibs
+  - haxelib install hxcpp
+  - haxelib install hxjava
+  - haxelib install hxcs
+  - haxelib list
+
+script:
+  - haxe test/test-interp.hxml
+  - haxe test/test-neko.hxml         && neko bin/tests/irc.n
+  - haxe test/test-js.hxml           && node bin/tests/irc.js
+  - haxe test/test-java.hxml         && java -jar bin/tests/java/irc.jar
+  - haxe test/test-php.hxml          && php bin/tests/php/index.php
+  - haxe test/test-cs.hxml           && mono bin/tests/cs/irc.exe
+  - haxe test/test-cpp.hxml          && ./bin/tests/cpp/TestAll
+  - haxe test/test-python.hxml       && python3 bin/tests/irc.py

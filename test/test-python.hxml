@@ -1,0 +1,2 @@
+test-common.hxml
+-python ../bin/tests/irc.py
