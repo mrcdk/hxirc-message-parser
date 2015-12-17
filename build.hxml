@@ -4,13 +4,7 @@ common.hxml
 --next
 -main Main
 -neko bin/irc.n
-
---next
--dce full
-#-D analyzer
--D js-es5
--main Main
--js bin/irc.js
+-cmd neko bin/irc.n
 
 --next
 test.hxml

@@ -1,0 +1,14 @@
+{
+  "name": "hxirc-message-parser",
+  "url" : "https://github.com/mrcdk/hxirc-message-parser",
+  "license": "MIT",
+  "tags": ["cross", "irc"],
+  "description": "An irc message parser.",
+  "version": "0.1.0",
+  "releasenote": "Initial release.",
+  "contributors": ["mrcdk"],
+  "dependencies": {
+    "thx.core": "",
+    "utest": ""
+  }
+}

@@ -66,16 +66,6 @@ abstract Message(MessageDef) {
       trailing = raw.substring(cursor);
     }
 
-    /*
-    trace("\n" + raw +
-          "\n\ttags: " + Tag.parseTags(tags) +
-          "\n\tprefix: " + prefix +
-          "\n\tcommand: " +  command +
-          "\n\tparamsStr: " + paramsStr +
-          "\n\tparams: " +  params +
-          "\n\ttrailing: " +  trailing);
-    */
-
     return new Message(Tag.Tags.parse(tags), Prefix.parse(prefix), command, params, trailing);
   }
 
@@ -97,6 +87,19 @@ abstract Message(MessageDef) {
     if(trailing) s += '${spc(command || params)}:${this.trailing}';
 
     return s;
+  }
+
+  public inline function debug() {
+
+    return '
+      raw: ${toString()}
+      \ttags: ${this.tags.debug()}
+      \tprefix: ${this.prefix.debug()}
+      \tcommand: ${this.command}
+      \tparams: ${this.params}
+      \ttrailing: ${this.trailing}
+    ';
+
   }
 
 }

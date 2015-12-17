@@ -62,7 +62,7 @@ abstract Prefix(PrefixDef) {
   }
 
   @:to
-  inline function toString():String {
+  function toString():String {
     var s = "";
     if(this.nick.len() > 0) s += '${this.nick}';
     if(this.user.len() > 0) s += '!${this.user}';
@@ -70,6 +70,9 @@ abstract Prefix(PrefixDef) {
     return s;
   }
 
+  public function debug() {
+    return 'nick/servername: ${this.nick} user: ${this.user} host: ${this.host}';
+  }
 
 
 }

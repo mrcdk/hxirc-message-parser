@@ -19,8 +19,13 @@ abstract Tags(Array<Tag>) from Array<Tag> to Array<Tag> {
   }
 
   @:to
-  public inline function toString():String {
-    return this.map(function(t) return (t:String)).join(";");
+  inline function toString():String {
+    return this == null ? "" : this.map(function(t) return (t:String)).join(";");
+  }
+
+  public function debug() {
+    if(this == null) return "";
+    return this.map(function(t) return t.debug()).join("\n\t\t");
   }
 }
 
@@ -69,6 +74,10 @@ abstract Tag(TagDef) {
     if(this.vendor.len() > 0) s = '${this.vendor}/$s';
 
     return s;
+  }
+
+  public function debug() {
+    return 'key: ${this.key} value: ${this.value} vendor: ${this.vendor}';
   }
 
 }

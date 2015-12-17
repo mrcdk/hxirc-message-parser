@@ -14,6 +14,84 @@ class TestMessage {
 
   var messages:Array<MessageTest>;
 
+  public function testPrefixes() {
+    for(test in messages) {
+      if(test.rawPrefix == null) continue;
+      prefixTest(Prefix.parse(test.rawPrefix), test);
+    }
+  }
+
+  public function testTags() {
+    for(test in messages) {
+      if(test.rawTags == null) continue;
+      tagsTest(irc.Tag.Tags.parse(test.rawTags), test);
+    }
+  }
+
+  public function testMessages() {
+    for(test in messages) {
+
+      if(test.rawMessage == null) continue;
+
+      var expected = test.expected;
+      var message = Message.parse(test.rawMessage);
+
+      Assert.notNull(message);
+
+      if(message == null) continue;
+
+      // test tags
+      if(expected.tags == null) {
+        Assert.isNull(message.tags);
+      } else {
+        tagsTest(message.tags, test);
+      }
+      // test prefix
+      if(expected.prefix == null) {
+        Assert.isNull(message.prefix);
+      } else {
+        prefixTest(message.prefix, test);
+      }
+      // test command
+      Assert.equals(expected.command, message.command);
+      // test params
+      if(expected.params == null) {
+        Assert.isNull(message.params);
+      } else {
+        Assert.same(expected.params, message.params);
+      }
+      // test trailing
+      if(expected.trailing == null) {
+        Assert.isNull(message.trailing);
+      } else {
+        Assert.equals(expected.trailing, message.trailing);
+      }
+      //test rebuilt menssage
+      Assert.equals(test.rawMessage, (message:String));
+
+    }
+  }
+
+  function tagsTest(tags:Tag.Tags, test:MessageTest) {
+    Assert.notNull(tags);
+    Assert.same(test.expected.tags, tags);
+    Assert.equals(test.rawTags, (tags:String));
+  }
+
+  function prefixTest(prefix:Prefix, test:MessageTest) {
+    Assert.notNull(prefix);
+    Assert.same(test.expected.prefix, prefix);
+    Assert.equals(test.rawPrefix, (prefix:String));
+
+    if(test.hostmask) {
+      Assert.isTrue(prefix.isHostmask, 'Prefix "${test.rawPrefix}" should be a hostmask.');
+    }
+
+    if(test.server) {
+      Assert.isTrue(prefix.isServer, 'Prefix "${test.rawPrefix}" should be a server.');
+    }
+  }
+
   public function new() {
 
     messages = [
@@ -176,75 +254,6 @@ class TestMessage {
 
     ];
 
-  }
-
-  public function testPrefixes() {
-    for(test in messages) {
-      if(test.rawPrefix == null) continue;
-      prefixTest(Prefix.parse(test.rawPrefix), test);
-    }
-  }
-
-  public function testTags() {
-    for(test in messages) {
-      if(test.rawTags == null) continue;
-      tagsTest(irc.Tag.Tags.parse(test.rawTags), test);
-    }
-  }
-
-  public function testMessages() {
-    for(test in messages) {
-
-      if(test.rawMessage == null) continue;
-
-      var expected = test.expected;
-      var message = Message.parse(test.rawMessage);
-
-      Assert.notNull(message);
-
-      if(message != null) {
-        prefixTest(message.prefix, test);
-        Assert.equals(expected.command, message.command);
-        if(expected.params == null) {
-          Assert.isNull(message.params);
-        } else {
-          Assert.same(expected.params, message.params);
-        }
-        if(expected.trailing == null) {
-          Assert.isNull(message.trailing);
-        } else {
-          Assert.equals(expected.trailing, message.trailing);
-        }
-
-
-        if(false && test.rawTags != null) {
-          Assert.warn("Skipping Message.toString() because tags aren't implemented.");
-          continue;
-        }
-
-        Assert.equals(test.rawMessage, (message:String));
-      }
-    }
-  }
-
-  function tagsTest(tags:Array<Tag>, test:MessageTest) {
-    Assert.notNull(tags);
-    Assert.same(test.expected.tags, tags);
-    //Assert.equals(test.rawTags, (tags:String));
-  }
-
-  function prefixTest(prefix:Prefix, test:MessageTest) {
-    Assert.notNull(prefix);
-    Assert.same(test.expected.prefix, prefix);
-    Assert.equals(test.rawPrefix, (prefix:String));
-
-    if(test.hostmask) {
-      Assert.isTrue(prefix.isHostmask, 'Prefix "${test.rawPrefix}" should be a hostmask.');
-    }
-
-    if(test.server) {
-      Assert.isTrue(prefix.isServer, 'Prefix "${test.rawPrefix}" should be a server.');
-    }
   }
 
 }

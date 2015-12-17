@@ -2,7 +2,6 @@ package irc;
 
 using StringTools;
 
-@:keep
 @:enum abstract Command(String) to String {
   // IRC commands extracted from RFC2812 section 3 and RFC2813 section 4.
 

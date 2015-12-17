@@ -1,6 +1,3 @@
 -lib thx.core
--lib thx.promise
--lib tjson
--lib compiletime
 
 -cp src
