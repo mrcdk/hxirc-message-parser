@@ -11,4 +11,4 @@ Check `src/Main.hx` and `test/TestMessage.hx` for examples.
 
 #### Known issues
 
-- Python target fails.
+- Targets Java, C# and Python fail.
