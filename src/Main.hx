@@ -3,6 +3,10 @@ import irc.*;
 
 class Main {
   public static function main() {
+    var msg:Message = new Message(Command.NICK, ["test"]);
+    trace(msg.debug());
+
+
     var message:Message = "PRIVMSG #channel :Message with :colons!";
     trace(message.debug());
 

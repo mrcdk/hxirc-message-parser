@@ -103,7 +103,7 @@ class TestMessage {
           var command = Command.QUIT;
           var params = null;
           var trailing = null;
-          new Message(prefix, command, params, trailing);
+          new Message(prefix, command);
         },
         hostmask: true
       },
@@ -115,7 +115,7 @@ class TestMessage {
           var command = Command.PRIVMSG;
           var params = null;
           var trailing = "message";
-          new Message(prefix, command, params, trailing);
+          new Message(prefix, command, trailing);
         },
       },
       {
@@ -126,7 +126,7 @@ class TestMessage {
           var command = Command.NOTICE;
           var params = null;
           var trailing = ":::Hey!";
-          new Message(prefix, command, params, trailing);
+          new Message(prefix, command, trailing);
         },
       },
       {
@@ -161,7 +161,7 @@ class TestMessage {
           var command = Command.QUIT;
           var params = null;
           var trailing = "Gone to have lunch";
-          new Message(prefix, command, params, trailing);
+          new Message(prefix, command, trailing);
         },
         hostmask: true
       },
@@ -200,7 +200,7 @@ class TestMessage {
           var command = Command.MODE;
           var params = ["&oulu", "+b", "*!*@*.edu", "+e", "*!*@*.bu.edu"];
           var trailing = null;
-          new Message(prefix, command, params, trailing);
+          new Message(prefix, command, params);
         },
       },
 
@@ -224,7 +224,7 @@ class TestMessage {
           var command = Command.PASS;
           var params = ["oauth:token_goes_here"];
           var trailing = null;
-          new Message(prefix, command, params, trailing);
+          new Message(prefix, command, params);
         },
       },
 

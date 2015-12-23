@@ -2,7 +2,7 @@ package irc;
 
 using StringTools;
 
-@:enum abstract Command(String) to String {
+@:enum abstract Command(String) {
   // IRC commands extracted from RFC2812 section 3 and RFC2813 section 4.
 
   var PASS     = "PASS";
@@ -218,6 +218,9 @@ using StringTools;
   var RPL_SASLMECHS   = "908";
 
   inline function new(s:String) this = s;
+
+  @:to
+  public inline function toString():String return cast this;
 
   @:from inline static function fromString(s:String) {
     return new Command(s.toUpperCase().trim());

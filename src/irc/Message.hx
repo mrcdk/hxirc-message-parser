@@ -76,7 +76,7 @@ abstract Message(MessageDef) {
     var s = "";
     var tags      = this.tags.len() > 0;
     var prefix    = this.prefix != null && !this.prefix.isEmpty();
-    var command   = this.command.len() > 0;
+    var command   = this.command.toString().len() > 0;
     var params    = this.params.len() > 0;
     var trailing  = this.trailing != null;
 
@@ -84,22 +84,28 @@ abstract Message(MessageDef) {
 
     if(tags)     s += '@${(this.tags:String)}';
     if(prefix)   s += '${spc(tags)}:${this.prefix}';
-    if(command)  s += '${spc(prefix)}${this.command}';
+    if(command)  s += '${spc(tags || prefix)}${this.command}';
     if(params)   s += '${spc(command)}${this.params.join(" ")}';
     if(trailing) s += '${spc(command || params)}:${this.trailing}';
 
     return s;
   }
 
-  public inline function debug() {
+  public function debug() {
+
+    var tags      = this.tags.len() > 0;
+    var prefix    = this.prefix != null && !this.prefix.isEmpty();
+    var command   = this.command.toString().len() > 0;
+    var params    = this.params.len() > 0;
+    var trailing  = this.trailing != null;
 
     return '
       raw: ${toString()}
-      \ttags: ${this.tags.debug()}
-      \tprefix: ${this.prefix.debug()}
-      \tcommand: ${this.command}
-      \tparams: ${this.params}
-      \ttrailing: ${this.trailing}
+      \ttags: ${tags ? this.tags.debug() : null}
+      \tprefix: ${prefix ?  this.prefix.debug() : null}
+      \tcommand: ${command ? this.command : null}
+      \tparams: ${params ? this.params : null}
+      \ttrailing: ${trailing ? this.trailing : null}
     ';
 
   }
