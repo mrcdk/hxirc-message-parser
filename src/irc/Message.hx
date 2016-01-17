@@ -43,7 +43,7 @@ abstract Message(MessageDef) {
     }
 
     var tagsIdx = raw.indexOf("@");
-    var prefixIdx = raw.indexOf(":");
+    var prefixIdx = tagsIdx == 0 ? raw.indexOf(" :") + 1 : raw.indexOf(":");
     if(tagsIdx == 0 && prefixIdx > tagsIdx) {
       tags = raw.substring(1, adv());
       prefix = raw.substring(prefixIdx+1, adv(prefixIdx));

@@ -3,14 +3,8 @@ import irc.*;
 
 class Main {
   public static function main() {
-    var msg:Message = new Message(Command.NICK, ["test"]);
-    trace(msg.debug());
 
-
-    var message:Message = "PRIVMSG #channel :Message with :colons!";
-    trace(message.debug());
-
-    var message = Message.parse("@color=#FF69B4;display-name=seme_ukulele;emotes=;subscriber=1;turbo=0;user-id=104949876;user-type= :seme_ukulele!seme_ukulele@seme_ukulele.tmi.twitch.tv PRIVMSG #monotonetim :ebe");
+    var message = Message.parse("@color=#FF69B4;display-name=Arklancer;emotes=9801:0-3/33:5-12,37-44;mod=0;subscriber=1;turbo=0;user-id=40725190;user-type= :arklancer!arklancer@arklancer.tmi.twitch.tv PRIVMSG #twitchplayspokemon :AtWW DansGame Lyrics version or riot DansGame");
     trace(message.debug());
   }
 }

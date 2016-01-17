@@ -15,12 +15,12 @@ abstract Tags(Array<Tag>) from Array<Tag> to Array<Tag> {
   @:from
   public static inline function parse(raw:String):Tags {
     raw = raw.trim();
-    return raw.length > 0 ? raw.split(";").map(function(s) return Tag.parse(s)) : null;
+    return raw.length > 0 ? raw.split(";").map(function(s) return Tag.parse(s.unescapeTags())) : null;
   }
 
   @:to
   inline function toString():String {
-    return this == null ? "" : this.map(function(t) return (t:String)).join(";");
+    return this == null ? "" : this.map(function(t) return (t:String).escapeTags()).join(";");
   }
 
   public function debug() {
@@ -49,7 +49,9 @@ abstract Tag(TagDef) {
     var vendorIdx = raw.indexOf("/");
     var valueIdx = raw.indexOf("=");
 
-    if(vendorIdx > 0 && valueIdx > 0) {
+    if(vendorIdx > valueIdx) vendorIdx = -1;
+
+    if(vendorIdx > 0 && vendorIdx > 0) {
       vendor = raw.substring(0, vendorIdx);
       key = raw.substring(vendorIdx+1, valueIdx);
       value = raw.substring(valueIdx+1);
@@ -78,31 +80,6 @@ abstract Tag(TagDef) {
 
   public function debug() {
     return 'key: ${this.key} value: ${this.value} vendor: ${this.vendor}';
-  }
-
-}
-
-abstract TagValue(String) from String to String {
-  public inline function new(s) this = s;
-
-  public function escape():TagValue {
-    var s:String = this;
-    s = (~/\\/g).replace(s, "\\\\");
-    s = (~/;/g).replace(s, '\\:');
-    s = (~/ /g).replace(s, "\\s");
-    s = (~/\n/g).replace(s, "\\n");
-    s = (~/\r/g).replace(s, "\\r");
-    return cast s;
-  }
-
-  public function unescape():TagValue {
-    var s:String = this;
-    s = (~/\\:/g).replace(s, ';');
-    s = (~/\\s/g).replace(s, " ");
-    s = (~/\\\\/g).replace(s, "\\");
-    s = (~/\\n/g).replace(s, "\n");
-    s = (~/\\r/g).replace(s, "\r");
-    return cast s;
   }
 
 }

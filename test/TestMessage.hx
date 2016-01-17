@@ -252,6 +252,31 @@ class TestMessage {
         hostmask: true
       },
 
+      {
+        rawMessage: "@color=#FF69B4;display-name=Arklancer;emotes=9801:0-3/33:5-12,37-44;mod=0;subscriber=1;turbo=0;user-id=40725190;user-type= :arklancer!arklancer@arklancer.tmi.twitch.tv PRIVMSG #twitchplayspokemon :AtWW DansGame Lyrics version or riot DansGame",
+        rawPrefix: "arklancer!arklancer@arklancer.tmi.twitch.tv",
+        rawTags: "color=#FF69B4;display-name=Arklancer;emotes=9801:0-3/33:5-12,37-44;mod=0;subscriber=1;turbo=0;user-id=40725190;user-type=",
+        expected: {
+          var tags = [
+            new Tag("color", "#FF69B4"),
+            new Tag("display-name", "Arklancer"),
+            new Tag("emotes", "9801;0-3/33;5-12,37-44"),
+            new Tag("mod", "0"),
+            new Tag("subscriber", "1"),
+            new Tag("turbo", "0"),
+            new Tag("user-id", "40725190"),
+            new Tag("user-type", ""),
+          ];
+
+          var prefix = new Prefix("arklancer","arklancer","arklancer.tmi.twitch.tv");
+          var command = Command.PRIVMSG;
+          var params = ["#twitchplayspokemon"];
+          var trailing = "AtWW DansGame Lyrics version or riot DansGame";
+          new Message(tags, prefix, command, params, trailing);
+        },
+        hostmask: true
+      },
+
     ];
 
   }
